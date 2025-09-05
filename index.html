@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Opportunity - Cyber Neon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px #00f0ff, 0 0 60px #00f0ff; }
+      50% { box-shadow: 0 0 40px #00f0ff, 0 0 80px #00f0ff; }
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans">
+
+<!-- Navbar -->
+<nav class="flex flex-col md:flex-row justify-between items-center px-4 md:px-8 py-4 border-b border-cyan-500/20">
+  <!-- Logo + Optional Text -->
+  <div class="flex items-center space-x-2 mb-4 md:mb-0">
+    <img src="https://i.ibb.co/p6x4xpCj/Whats-App-Image-2025-09-03-at-18-49-11-d04a09d1-Picsart-Background-Remover.png" 
+         alt="Logo" 
+         class="w-16 h-16 rounded-full shadow-lg" />
+  </div>
+
+  <!-- Links -->
+  <div class="flex space-x-6 mb-4 md:mb-0">
+    <a href="#" class="glow-btn text-gray-300 hover:text-cyan-400 transition text-sm md:text-base">Home</a>
+    <a href="#" class="glow-btn text-gray-300 hover:text-cyan-400 transition text-sm md:text-base">Case Studies</a>
+  </div>
+
+  <!-- CTA Button -->
+  <a href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09"
+     class="glow-btn text-sm md:text-base">
+    Join Today
+  </a>
+</nav>
+
+<style>
+.social-icons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.social-icons a {
+  color: #00aced;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+.social-icons a:hover {
+  color: #ffffff;
+}
+.glow-btn {
+  background: #00f0ff;
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  text-decoration: none;
+  box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+}
+.glow-btn:hover {
+  background: #00cfff;
+  box-shadow: 0 0 40px #00f0ff, 0 0 80px #00f0ff;
+  transform: scale(1.05);
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+<!-- Font Awesome (for icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* Floating icons container */
+.floating-icons {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1; /* stays behind content */
+}
+
+/* Base floating icon */
+.icon {
+  position: absolute;
+  bottom: -120px;
+  font-size: var(--size);
+  opacity: 0.7;
+  animation: rise var(--dur, 14s) linear infinite;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
+}
+
+/* Different brand colors */
+.icon.facebook   { color: #1877f2; }
+.icon.instagram  { color: #e1306c; }
+.icon.twitter    { color: #1da1f2; }
+.icon.linkedin   { color: #0077b5; }
+.icon.youtube    { color: #ff0000; }
+.icon.tiktok     { color: #000000; }
+.icon.whatsapp   { color: #25d366; }
+.icon.envelope   { color: #f59e0b; }   /* email */
+.icon.chart      { color: #22c55e; }   /* analytics */
+.icon.ads        { color: #9333ea; }   /* marketing ads */
+
+/* Rise Animation */
+@keyframes rise {
+  0%   { transform: translate(-50%, 0) scale(1); opacity: .6; }
+  50%  { transform: translate(calc(-50% + var(--drift)/2), -50vh) scale(1.2); opacity: .85; }
+  100% { transform: translate(calc(-50% + var(--drift)), -100vh) scale(1.3); opacity: 0; }
+}
+</style>
+
+
+
+
+<body>
+  <!-- Floating Marketing & Social Media Icons -->
+  <div class="floating-icons">
+    <!-- Social Media -->
+    <i class="fab fa-facebook-f icon facebook" style="--size:40px; --drift:30px; --dur:12s; left:10%;"></i>
+    <i class="fab fa-instagram icon instagram" style="--size:50px; --drift:-40px; --dur:16s; left:25%;"></i>
+    <i class="fab fa-twitter icon twitter" style="--size:45px; --drift:25px; --dur:14s; left:40%;"></i>
+    <i class="fab fa-linkedin-in icon linkedin" style="--size:50px; --drift:35px; --dur:18s; left:55%;"></i>
+    <i class="fab fa-youtube icon youtube" style="--size:60px; --drift:-50px; --dur:20s; left:70%;"></i>
+    <i class="fab fa-tiktok icon tiktok" style="--size:45px; --drift:30px; --dur:15s; left:85%;"></i>
+    <i class="fab fa-whatsapp icon whatsapp" style="--size:50px; --drift:-45px; --dur:22s; left:95%;"></i>
+
+    <!-- Marketing Tools -->
+    <i class="fas fa-envelope icon envelope" style="--size:42px; --drift:25px; --dur:13s; left:20%;"></i>
+    <i class="fas fa-chart-line icon chart" style="--size:48px; --drift:-35px; --dur:17s; left:50%;"></i>
+    <i class="fas fa-bullhorn icon ads" style="--size:55px; --drift:40px; --dur:19s; left:75%;"></i>
+  </div>
+</body>
+
+
+
+
+
+
+
+
+
+
+<!-- Hero Image -->
+<div class="mt-12 flex justify-center">
+  <img src="https://i.ibb.co/p6x4xpCj/Whats-App-Image-2025-09-03-at-18-49-11-d04a09d1-Picsart-Background-Remover.png"
+       alt="Glowing AI"
+       class="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-cyan-500 animate-[float_6s_ease-in-out_infinite] shadow-[0_0_40px_#00f0ff]" />
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Font Awesome (for icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<div class="social-icons">
+  <a href="https://facebook.com/yourprofile" target="_blank">
+    <i class="glow-btn fab fa-facebook-f fa-fade"></i>
+  </a>
+    <a href="https://instagram.com/yourprofile" target="_blank">
+    <i class="glow-btn fab fa-instagram fa-fade "></i>
+  </a>
+    <a href="https://instagram.com/yourprofile" target="_blank">
+    <i class="glow-btn fa-brands fa-tiktok fa-fade"></i>
+  </a>
+  <a href="https://twitter.com/yourprofile" target="_blank">
+    <i class="glow-btn fab fa-twitter fa-fade"></i>
+  </a>
+    <a href="https://linkedin.com/in/yourprofile" target="_blank">
+    <i class="glow-btn fab fa-linkedin-in fa-fade"></i>
+  </a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- AI Tutorials Section -->
+<section class="text-center py-12 md:py-20 px-4 md:px-0">
+  <h2 class="text-2xl md:text-3xl font-bold text-cyan-400 drop-shadow-[0_0_10px_#00f0ff]">
+    Watch AI Marketing Tutorials
+  </h2>
+  <p class="text-gray-400 mt-2 mb-4 md:mb-6">Learn marketing strategies through our YouTube tutorials.</p>
+
+  <div class="flex justify-center mt-4 md:mt-6">
+    <a href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09" target="_blank" 
+       class="glow-btn text-sm md:text-base">
+      Get Instant Access &raquo;
+    </a>
+  </div>
+
+  <div class="flex justify-center mt-4 md:mt-6">
+    <div class="rounded-lg animate-pulseGlow shadow-[0_0_60px_#00f0ff] w-full max-w-md md:max-w-4xl h-64 md:h-96 p-1">
+      <iframe class="w-full h-full rounded-lg"
+              src="https://www.youtube.com/embed/UZJGHY_hNQ4?autoplay=1&mute=0&loop=1&playlist=UZJGHY_hNQ4"
+              title="YouTube video" frameborder="0"
+              allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Big Visual + Learn More (Responsive) -->
+<section class="text-center py-12 md:py-16 relative px-4">
+  <div class="flex justify-center">
+    <img src="https://i.ibb.co/0NsNX01/marketing-strategy.jpg"
+         alt="AI Glow Scene"
+         class="rounded-lg w-full max-w-md md:max-w-4xl shadow-lg animate-[pulseGlow_4s_infinite]" />
+  </div>
+  <div class="mt-6 md:mt-8">
+    <a href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09"
+       target="_blank"
+       class="glow-btn text-sm md:text-base px-6 py-3">
+      Learn More
+    </a>
+  </div>
+</section>
+
+
+<!-- Technology Section -->
+<section class="text-center py-12 md:py-20 px-4 md:px-0">
+  <span class="bg-cyan-900/50 text-xs px-3 py-1 rounded-full">Technology</span>
+  <h2 class="text-2xl md:text-3xl font-bold mt-4 text-cyan-400 drop-shadow-[0_0_10px_#00f0ff]">
+    Learn How To Use Top AI Tech Like A Pro
+  </h2>
+  <p class="text-gray-400 mt-4 max-w-xl mx-auto">
+    We provide world-class education not just on business, but using the top AI tools on the market.
+  </p>
+
+
+  <div class="relative flex justify-center items-center mt-12">
+    <div class="absolute w-56 h-56 md:w-72 md:h-72 bg-cyan-500/30 rounded-full blur-3xl animate-pulse"></div>
+    <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-8 z-10">
+      <img src="https://i.ibb.co/d0n7L9Ny/Instagram-logo-2016-svg.webp" class="w-16 h-16 md:w-20 md:h-20 animate-[float_5s_ease-in-out_infinite]" alt="Instagram" />
+      <img src="https://i.ibb.co/933YTQTQ/2021-Facebook-icon-svg.webp" class="w-16 h-16 md:w-20 md:h-20 animate-[float_7s_ease-in-out_infinite]" alt="Facebook" />
+      <img src="https://i.ibb.co/S1kSW3H/images-Picsart-Background-Remover.png" class="w-16 h-16 md:w-20 md:h-20 animate-[float_6s_ease-in-out_infinite]" alt="OpenAI" />
+      <img src="https://i.ibb.co/WpkPd7hx/4834215.png" class="w-16 h-16 md:w-20 md:h-20 animate-[float_8s_ease-in-out_infinite]" alt="Stripe" />
+      <img src="https://i.ibb.co/xqhXTVbS/7611770.png" class="w-16 h-16 md:w-20 md:h-20 animate-[float_9s_ease-in-out_infinite]" alt="Notion" />
+      <img src="https://i.ibb.co/Mkc2BhW6/X-logo-social-media-icon-transparent-png.png" class="w-16 h-16 md:w-20 md:h-20 animate-[float_10s_ease-in-out_infinite]" alt="AI Tools" />
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- ===== Services Section (standalone, no React/Tailwind needed) ===== -->
+<style>
+  :root { --card-radius: 18px; }
+  .svc-section{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:24px;
+    padding:48px 24px;
+    /* background:#fff;  ⬅️ removed */
+    color:#111;
+    font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial;
+  }
+  @media (min-width: 980px){ .svc-section{grid-template-columns:1fr 1fr 1fr;} }
+  .svc-h2{margin:0 0 18px;font-weight:700;font-size:22px;line-height:1.2;}
+  .svc-stack{display:flex;flex-direction:column;gap:16px;}
+  .svc-card{display:flex;gap:16px;align-items:flex-start;padding:16px;border:1px solid #e5e7eb;background:#f9fafb;border-radius:var(--card-radius);text-decoration:none;color:inherit;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;}
+  .svc-card:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.10);background:#fff;}
+  .svc-card img{width:44px;height:44px;object-fit:contain;flex:0 0 auto;border-radius:10px;}
+  .svc-card h3{margin:0 0 6px;font-weight:600;font-size:16px;}
+  .svc-card p{margin:0;color:#4b5563;font-size:14px;line-height:1.5;}
+  .svc-hero{position:relative;display:block;border-radius:22px;overflow:hidden;box-shadow:0 12px 36px rgba(0,0,0,.12);transition:transform .15s ease, box-shadow .15s ease;}
+  .svc-hero:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(0,0,0,.18);}
+  .svc-hero img{display:block;width:100%;height:100%;object-fit:cover;}
+  .svc-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 20%, rgba(0,0,0,.55) 70%);display:flex;flex-direction:column;justify-content:flex-end;padding:24px;}
+  .svc-overlay h3{margin:0 0 6px;color:#fff;font-weight:700;font-size:18px;}
+  .svc-overlay p{margin:0;color:#e5e7eb;font-size:14px;}
+  .svc-h2 {
+  margin: 0 0 18px;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #fff; /* <-- makes headings white */
+}
+
+</style>
+
+
+
+
+<section class="svc-section" id="services">
+  <!-- Column 1 -->
+  <div>
+<h2 class="svc-h2">AI Tracking &amp; Automation</h2>
+    <div class="svc-stack">
+      <a class="svc-card" href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09">
+        <img src="https://i.ibb.co/F416n06w/unnamed.png" alt="AI Lead Funnel" />
+        <div>
+          <h3>AI Lead Funnel</h3>
+          <p>Automatically turn website visitors into customers.</p>
+        </div>
+      </a>
+
+      <a class="svc-card" href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09">
+        <img src="https://i.ibb.co/211Lw3wr/41-edited-3220142.webp" alt="Paid Ads Tracking" />
+        <div>
+          <h3>Paid Ads Tracking</h3>
+          <p>We cut ad costs by 50% while delivering 3x more qualified leads.</p>
+        </div>
+      </a>
+
+      <a class="svc-card" href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09">
+        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995" alt="Business Digitalization, AI & Automation" />
+        <div>
+          <h3>Business Digitalization, AI &amp; Automation</h3>
+          <p>Higher profit margins thanks to efficient processes, automation &amp; AI.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Column 2 -->
+  <div>
+    <h2 class="svc-h2">Marketing &amp; Sales</h2>
+    <div class="svc-stack">
+      <a class="svc-card" href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09">
+        <img src="https://i.ibb.co/HDKsqz0r/9-Best-Google-Ads-Tips-That-Will-Drive-Conversions.webp" alt="Paid Ads | PPC" />
+        <div>
+          <h3>Paid Ads | PPC</h3>
+          <p>Laser-focused ad campaigns on Meta and Google that attract &amp; convert high-quality leads.</p>
+        </div>
+      </a>
+
+      <a class="svc-card" href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09">
+        <img src="https://i.ibb.co/4g59Trzh/Sec3-CRM-1-scaled-Picsart-Background-Remover.png" alt="CRM Setup & Automation" />
+        <div>
+          <h3>CRM Setup &amp; Automation</h3>
+          <p>Synchronize marketing, sales, and customer success to drive revenue growth.</p>
+        </div>
+      </a>
+
+      <a class="svc-card" href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09">
+        <img src="https://i.ibb.co/TDL0NhcM/Oabyxjm-Hzi-Y7ro-Mi-IUVnnpzy-Tw219-Dc-REEXhi57e.jpg" alt="Organic Growth & SEO" />
+        <div>
+          <h3>Organic Growth &amp; SEO</h3>
+          <p>Leverage organic content to scale website traffic and create warm inbound leads.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Column 3 (image card) -->
+  <a class="svc-hero" href="https://calendly.com/realiskamarketing/new-meeting-2?month=2025-09" aria-label="The Economy is Changing — click to explore">
+    <img src="https://i.ibb.co/7t6yt293/Whats-App-Image-2025-09-04-at-09-15-40-51c60e8c-Picsart-Background-Remover.png" alt="Business professional" />
+    <div class="svc-overlay">
+      <h3>Leo iskander</h3>
+      <p>Click to explore.</p>
+    </div>
+  </a>
+</section>
+<!-- ===== /Services Section ===== -->
+
+
+
+
+
+<!-- Footer -->
+<footer class="text-center py-6 border-t border-cyan-500/20 text-gray-400">
+  © 2025 AI Insiders - All Rights Reserved
+</footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website with Intro</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* Shared video styles (full screen on all devices) */
+    video, #animation-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+    }
+
+    /* Animation loop */
+    #animation-screen {
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    /* Intro video */
+    #intro-video {
+      display: none;
+      z-index: 1001;
+    }
+
+    /* Main website */
+    #main-content {
+      display: none;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Step 1: Animation loop -->
+  <div id="animation-screen">
+    <video id="animation-video" autoplay muted loop playsinline>
+      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413606825579905114/09033.mp4?ex=68bc8b72&is=68bb39f2&hm=eca364a6043884eef8a03f046c715c71960339033de047b06b49374a0a6535cd&" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Step 2: Intro video -->
+  <video id="intro-video" playsinline muted>
+    <source id="video-source" type="video/mp4">
+  </video>
+
+  <!-- Step 3: Main website -->
+  <div id="main-content">
+    <h1>My Full Website</h1>
+    <p>Now you can see all the content!</p>
+  </div>
+
+  <script>
+    const animationScreen = document.getElementById("animation-screen");
+    const introVideo = document.getElementById("intro-video");
+    const videoSource = document.getElementById("video-source");
+    const mainContent = document.getElementById("main-content");
+
+    // Desktop & mobile video links
+    const desktopVideo = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
+    const mobileVideo  = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
+
+    // Detect mobile
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // Preload intro video
+    videoSource.src = isMobile ? mobileVideo : desktopVideo;
+    introVideo.load();
+
+    // On click → instant swap
+    animationScreen.addEventListener("click", () => {
+      introVideo.style.display = "block";
+      introVideo.play();
+      animationScreen.style.display = "none";
+    });
+
+    // After intro ends → show site
+    introVideo.addEventListener("ended", () => {
+      introVideo.style.display = "none";
+      mainContent.style.display = "block";
+      document.body.style.overflow = "auto"; // allow scroll
+    });
+  </script>
+
+</body>
+</html>
