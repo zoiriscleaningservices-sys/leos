@@ -415,101 +415,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website with Intro</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website with Intro</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+  }
 
-    /* Shared video styles (full screen on all devices) */
-    video, #animation-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-    }
+  video, #animation-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
 
-    /* Animation loop */
-    #animation-screen {
-      z-index: 1000;
-      cursor: pointer;
-    }
+  #animation-screen {
+    z-index: 1000;
+    cursor: pointer;
+  }
 
-    /* Intro video */
-    #intro-video {
-      display: none;
-      z-index: 1001;
-    }
+  #intro-video {
+    display: none;
+    z-index: 1001;
+  }
 
-    /* Main website */
-    #main-content {
-      display: none;
-      padding: 20px;
-      text-align: center;
-    }
-  </style>
+  #main-content {
+    display: none;
+    padding: 20px;
+    text-align: center;
+  }
+</style>
 </head>
 <body>
 
-  <!-- Step 1: Animation loop -->
-  <div id="animation-screen">
-    <video id="animation-video" autoplay muted loop playsinline>
-      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413606825579905114/09033.mp4?ex=68bc8b72&is=68bb39f2&hm=eca364a6043884eef8a03f046c715c71960339033de047b06b49374a0a6535cd&" type="video/mp4">
-    </video>
-  </div>
-
-  <!-- Step 2: Intro video -->
-  <video id="intro-video" playsinline muted>
-    <source id="video-source" type="video/mp4">
+<!-- Animation screen -->
+<div id="animation-screen">
+  <video id="animation-video" autoplay muted loop playsinline>
+    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413606825579905114/09033.mp4?ex=68bc8b72&is=68bb39f2&hm=eca364a6043884eef8a03f046c715c71960339033de047b06b49374a0a6535cd&" type="video/mp4">
   </video>
+</div>
 
-  <!-- Step 3: Main website -->
-  <div id="main-content">
-    <h1>My Full Website</h1>
-    <p>Now you can see all the content!</p>
-  </div>
+<!-- Intro video -->
+<video id="intro-video" playsinline>
+  <source id="video-source" type="video/mp4">
+</video>
 
-  <script>
-    const animationScreen = document.getElementById("animation-screen");
-    const introVideo = document.getElementById("intro-video");
-    const videoSource = document.getElementById("video-source");
-    const mainContent = document.getElementById("main-content");
+<!-- Background audio -->
+<audio id="background-audio" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&"></audio>
 
-    // Desktop & mobile video links
-    const desktopVideo = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
-    const mobileVideo  = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
+<!-- Main website content -->
+<div id="main-content">
+  <h1>My Full Website</h1>
+  <p>Now you can see all the content!</p>
+</div>
 
-    // Detect mobile
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+<script>
+const animationScreen = document.getElementById("animation-screen");
+const introVideo = document.getElementById("intro-video");
+const videoSource = document.getElementById("video-source");
+const mainContent = document.getElementById("main-content");
+const backgroundAudio = document.getElementById("background-audio");
 
-    // Preload intro video
-    videoSource.src = isMobile ? mobileVideo : desktopVideo;
-    introVideo.load();
+const desktopVideo = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
+const mobileVideo  = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    // On click → instant swap
-    animationScreen.addEventListener("click", () => {
-      introVideo.style.display = "block";
-      introVideo.play();
-      animationScreen.style.display = "none";
-    });
+// Preload intro video
+videoSource.src = isMobile ? mobileVideo : desktopVideo;
+introVideo.load();
 
-    // After intro ends → show site
-    introVideo.addEventListener("ended", () => {
-      introVideo.style.display = "none";
-      mainContent.style.display = "block";
-      document.body.style.overflow = "auto"; // allow scroll
-    });
-  </script>
+// Start background audio as soon as the page loads (if autoplay allowed)
+function startAudio() {
+  backgroundAudio.play().catch(() => {
+    console.log("Autoplay blocked. Audio will start on first interaction.");
+    document.addEventListener('click', () => backgroundAudio.play(), { once: true });
+    document.addEventListener('touchstart', () => backgroundAudio.play(), { once: true });
+  });
+}
+window.addEventListener('load', startAudio);
+
+// Click animation → play intro video
+animationScreen.addEventListener("click", () => {
+  introVideo.style.display = "block";
+  introVideo.play();
+  animationScreen.style.display = "none";
+});
+
+// After intro video → show website & stop audio
+introVideo.addEventListener("ended", () => {
+  introVideo.style.display = "none";
+  mainContent.style.display = "block";
+  backgroundAudio.pause();
+  backgroundAudio.currentTime = 0;
+  document.body.style.overflow = "auto";
+});
+</script>
 
 </body>
 </html>
