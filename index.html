@@ -470,7 +470,7 @@
 </video>
 
 <!-- Background audio -->
-<audio id="background-audio" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&"></audio>
+<audio id="background-audio" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" loop></audio>
 
 <!-- Main website content -->
 <div id="main-content">
@@ -485,22 +485,24 @@ const videoSource = document.getElementById("video-source");
 const mainContent = document.getElementById("main-content");
 const backgroundAudio = document.getElementById("background-audio");
 
+// Intro video URLs
 const desktopVideo = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
 const mobileVideo  = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-// Preload intro video
+// Set video source
 videoSource.src = isMobile ? mobileVideo : desktopVideo;
 introVideo.load();
 
-// Start background audio as soon as the page loads (if autoplay allowed)
+// Play background music after first interaction if blocked
 function startAudio() {
   backgroundAudio.play().catch(() => {
-    console.log("Autoplay blocked. Audio will start on first interaction.");
     document.addEventListener('click', () => backgroundAudio.play(), { once: true });
     document.addEventListener('touchstart', () => backgroundAudio.play(), { once: true });
   });
 }
+
+// Auto start audio on page load
 window.addEventListener('load', startAudio);
 
 // Click animation → play intro video
@@ -508,17 +510,22 @@ animationScreen.addEventListener("click", () => {
   introVideo.style.display = "block";
   introVideo.play();
   animationScreen.style.display = "none";
+
+  // **Do NOT stop audio here** — it continues until video ends
 });
 
-// After intro video → show website & stop audio
+// After intro video ends → show website content and stop audio
 introVideo.addEventListener("ended", () => {
   introVideo.style.display = "none";
   mainContent.style.display = "block";
+
   backgroundAudio.pause();
   backgroundAudio.currentTime = 0;
+
   document.body.style.overflow = "auto";
 });
 </script>
 
 </body>
 </html>
+
