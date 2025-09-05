@@ -490,20 +490,19 @@ const desktopVideo = "https://cdn.discordapp.com/attachments/1358917233065332889
 const mobileVideo  = "https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&";
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-// Set video source
+// Set intro video source
 videoSource.src = isMobile ? mobileVideo : desktopVideo;
 introVideo.load();
 
-// Play background music after first interaction if blocked
-function startAudio() {
+// Autoplay background music when page loads
+function playBackgroundAudio() {
   backgroundAudio.play().catch(() => {
+    // If autoplay blocked, play on first interaction
     document.addEventListener('click', () => backgroundAudio.play(), { once: true });
     document.addEventListener('touchstart', () => backgroundAudio.play(), { once: true });
   });
 }
-
-// Auto start audio on page load
-window.addEventListener('load', startAudio);
+window.addEventListener('load', playBackgroundAudio);
 
 // Click animation → play intro video
 animationScreen.addEventListener("click", () => {
@@ -511,10 +510,10 @@ animationScreen.addEventListener("click", () => {
   introVideo.play();
   animationScreen.style.display = "none";
 
-  // **Do NOT stop audio here** — it continues until video ends
+  // **Music continues during intro video**
 });
 
-// After intro video ends → show website content and stop audio
+// When intro video ends → show main content and stop music
 introVideo.addEventListener("ended", () => {
   introVideo.style.display = "none";
   mainContent.style.display = "block";
@@ -528,4 +527,5 @@ introVideo.addEventListener("ended", () => {
 
 </body>
 </html>
+
 
