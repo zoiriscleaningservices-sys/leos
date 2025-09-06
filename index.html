@@ -406,108 +406,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GIF to Video Intro Fullscreen</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #000;
-  }
-
-  #intro-overlay,
-  #intro-window {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-  }
-
-  #intro-overlay { background: #000; }
-
-  #intro-window {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-  }
-
-  #intro-gif,
-  #intro-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  #intro-video { display: none; }
-
-  #skip-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.2);
-    color: #fff;
-    border: 1px solid #fff;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    z-index: 10001;
-    backdrop-filter: blur(4px);
-  }
-
-  #skip-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
-</style>
-</head>
-<body>
-
+<!-- Intro HTML Block -->
 <div id="intro-overlay"></div>
 <div id="intro-window">
   <button id="skip-btn">Skip Intro</button>
-  <img id="intro-gif" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413756817216901242/09052.gif?ex=68bd1723&is=68bbc5a3&hm=abb44d8b0e806fc321d9ff3ed6015dff6b4695aea964c70bbd13d8b100644d49&">
+  <img id="intro-gif" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413756817216901242/09052.gif?ex=68bd1723&is=68bbc5a3&hm=abb44d8b0e806fc321d9ff3ed6015dff6b4695aea964c70bbd13d8b100644d49&" alt="Intro GIF">
   <video id="intro-video" muted playsinline preload="auto">
     <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413641183300685966/0905.mp4?ex=68bcab72&is=68bb59f2&hm=e18fabc51978acfb67bb6b0bd579cf4a108c68366e95fb2a8cd704583571b302&" type="video/mp4">
   </video>
@@ -517,60 +420,73 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
+  // Only run once per tab
+  const sessionKey = 'introPlayed';
+  if (sessionStorage.getItem(sessionKey)) return;
+  sessionStorage.setItem(sessionKey, 'true');
+
+  // Disable scrolling during intro
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+
+  // References
   const overlay = document.getElementById('intro-overlay');
   const introWindow = document.getElementById('intro-window');
-  const skipBtn = document.getElementById('skip-btn');
   const gif = document.getElementById('intro-gif');
   const video = document.getElementById('intro-video');
   const audio = document.getElementById('intro-audio');
+  const skipBtn = document.getElementById('skip-btn');
 
-  const sessionKey = 'introPlayed';
+  // Apply styles
+  overlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9998;";
+  introWindow.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000;z-index:9999;";
+  gif.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:10000;cursor:pointer;transition:opacity 1s ease-in-out;";
+  video.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:9999;";
+  skipBtn.style.cssText = "position:fixed;top:20px;right:20px;background:rgba(255,255,255,0.2);color:#fff;border:1px solid #fff;padding:8px 16px;border-radius:20px;cursor:pointer;z-index:10001;backdrop-filter:blur(4px);";
 
-  // Check if intro already played in this tab
-  if (sessionStorage.getItem(sessionKey)) {
-    overlay.style.display = 'none';
-    introWindow.style.display = 'none';
-    return;
-  }
+  skipBtn.onmouseover = () => skipBtn.style.background = 'rgba(255,255,255,0.3)';
+  skipBtn.onmouseout = () => skipBtn.style.background = 'rgba(255,255,255,0.2)';
 
-  // Mark as played for this tab
-  sessionStorage.setItem(sessionKey, 'true');
-
-  let introTimeout;
-
-  function hideIntro() {
-    overlay.style.display = 'none';
-    introWindow.style.display = 'none';
+  // Function to end intro
+  function endIntro() {
+    overlay.remove();
+    introWindow.remove();
     video.pause();
     audio.pause();
+    document.documentElement.style.overflow = 'auto';
+    document.body.style.overflow = 'auto';
   }
 
-  skipBtn.addEventListener('click', hideIntro);
+  skipBtn.addEventListener('click', endIntro);
 
-  // Auto hide after 60 seconds
-  introTimeout = setTimeout(hideIntro, 60000);
+  // Auto-hide after 60s
+  const introTimeout = setTimeout(endIntro, 60000);
 
+  // Play audio immediately
+  audio.currentTime = 0;
+  audio.volume = 0.7;
+  audio.play().catch(() => {
+    document.addEventListener('click', () => audio.play(), { once: true });
+  });
+
+  // Click GIF to fade to video
   gif.addEventListener('click', () => {
     clearTimeout(introTimeout);
-    gif.style.display = 'none';
-    video.style.display = 'block';
-    audio.currentTime = 0;
-    audio.play().catch(() => console.log('Autoplay blocked'));
+    gif.style.pointerEvents = 'none';
+    gif.style.opacity = 0;
+    video.style.opacity = 1;
     video.play();
   });
 
-  video.addEventListener('ended', hideIntro);
+  video.addEventListener('ended', endIntro);
 
-  // Ensure full coverage on resize
+  // Resize handling
   window.addEventListener('resize', () => {
     gif.style.width = '100%';
     gif.style.height = '100%';
     video.style.width = '100%';
     video.style.height = '100%';
   });
-});
+})();
 </script>
-
-</body>
-</html>
