@@ -499,7 +499,7 @@
 <div id="video-intro">
   <div id="video-intro-overlay"></div>
 
-  <button type="button" class="skip-button" onclick="skipVideoIntro()">Skip Intro</button>
+  <button type="button" id="skipBtn" class="skip-button" onclick="skipVideoIntro()">Skip Intro</button>
 
   <div id="video-intro-window">
     <!-- Background audio -->
@@ -525,7 +525,7 @@
   const loopAnimation = document.getElementById("loop-animation");
   const introVideo = document.getElementById("intro-video");
   const introAudio = document.getElementById("intro-audio");
-  const skipBtn = document.querySelector(".skip-button");
+  const skipBtn = document.getElementById("skipBtn");
 
   const storageKey = "videoPlayed"; // session storage key
 
@@ -536,7 +536,11 @@
 
   // Start intro screen
   function startIntro() {
-    if (!shouldShowVideo()) return;
+    if (!shouldShowVideo()) {
+      // If already played → don't show intro, also hide skip button forever
+      skipBtn.style.display = "none";
+      return;
+    }
 
     introOverlay.style.display = "block";
     introWindow.style.display = "block";
@@ -581,7 +585,10 @@
     introAudio.pause();
     introAudio.currentTime = 0;
 
-    sessionStorage.setItem(storageKey, "true"); // mark as played
+    // Mark as played → prevents skip from showing again
+    sessionStorage.setItem(storageKey, "true");
+    skipBtn.style.display = "none";
+
     document.body.classList.remove("vi-video-active");
   }
 
@@ -594,3 +601,4 @@
 
 </body>
 </html>
+
