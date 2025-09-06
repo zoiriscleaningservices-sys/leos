@@ -442,197 +442,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Intro</title>
-  <style>
-    /* Black overlay */
-    #video-intro-overlay {
-      position: fixed;
-      background: #000;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 9998;
-      display: none;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIF to Video Intro Fullscreen</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+  }
 
-    /* Intro Window */
-    #video-intro-window {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 9999;
-      background: #000;
-    }
-    #video-intro-window.show {
-      display: block;
-    }
-    #video-intro-window.fade-out {
-      opacity: 0;
-      transition: opacity 0.5s linear;
-    }
+  #intro-overlay,
+  #intro-window {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+  }
 
-    /* Animation GIF + Videos */
-    #loop-animation {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      cursor: pointer;
-      display: block;
-    }
-    #intro-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      cursor: pointer;
-      display: none;
-    }
+  #intro-overlay { background: #000; }
 
-    /* Skip Button */
-    .skip-button {
-      position: fixed;
-      top: 20px; right: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      border: 1px solid #fff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 10001;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-    }
-    .skip-button:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-    }
-    .skip-button.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
+  #intro-window {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+  }
 
-    /* Hide scrollbar when video is showing */
-    body.vi-video-active {
-      overflow: hidden;
-    }
-  </style>
+  #intro-gif,
+  #intro-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #intro-video { display: none; }
+
+  #skip-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 10001;
+    backdrop-filter: blur(4px);
+  }
+
+  #skip-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
+</style>
 </head>
 <body>
 
-<!-- Intro Wrapper -->
-<div id="video-intro">
-  <div id="video-intro-overlay"></div>
-
-  <button type="button" id="skipBtn" class="skip-button" onclick="skipVideoIntro()">Skip Intro</button>
-
-  <div id="video-intro-window">
-    <!-- Background audio -->
-    <audio id="intro-audio" autoplay loop>
-      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
-    </audio>
-
-    <!-- Loop animation GIF -->
-    <img id="loop-animation" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413756817216901242/09052.gif?ex=68bd1723&is=68bbc5a3&hm=abb44d8b0e806fc321d9ff3ed6015dff6b4695aea964c70bbd13d8b100644d49&" alt="Intro Animation">
-
-    <!-- Intro video -->
-    <video id="intro-video" playsinline preload="auto">
-      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413642097898164294/09051.mp4?ex=68bcac4c&is=68bb5acc&hm=cc7906707284f6ad56e8c5a4c9726eae7dc35d7d8efae47f114f3b8ad895fcf3&" type="video/mp4">
-    </video>
-  </div>
+<div id="intro-overlay"></div>
+<div id="intro-window">
+  <button id="skip-btn">Skip Intro</button>
+  <img id="intro-gif" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413756817216901242/09052.gif?ex=68bd1723&is=68bbc5a3&hm=abb44d8b0e806fc321d9ff3ed6015dff6b4695aea964c70bbd13d8b100644d49&">
+  <video id="intro-video" muted playsinline preload="auto">
+    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413641183300685966/0905.mp4?ex=68bcab72&is=68bb59f2&hm=e18fabc51978acfb67bb6b0bd579cf4a108c68366e95fb2a8cd704583571b302&" type="video/mp4">
+  </video>
+  <audio id="intro-audio">
+    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
+  </audio>
 </div>
 
 <script>
-  const introOverlay = document.getElementById("video-intro-overlay");
-  const introWindow = document.getElementById("video-intro-window");
-  const loopAnimation = document.getElementById("loop-animation");
-  const introVideo = document.getElementById("intro-video");
-  const introAudio = document.getElementById("intro-audio");
-  const skipBtn = document.getElementById("skipBtn");
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('intro-overlay');
+  const introWindow = document.getElementById('intro-window');
+  const skipBtn = document.getElementById('skip-btn');
+  const gif = document.getElementById('intro-gif');
+  const video = document.getElementById('intro-video');
+  const audio = document.getElementById('intro-audio');
 
-  const storageKey = "videoPlayed"; // local storage key
-  let autoPlayTimeout;
+  const sessionKey = 'introPlayed';
 
-  // Check if video should play (only once per browser until storage cleared)
-  function shouldShowVideo() {
-    return !localStorage.getItem(storageKey);
+  // Check if intro already played in this tab
+  if (sessionStorage.getItem(sessionKey)) {
+    overlay.style.display = 'none';
+    introWindow.style.display = 'none';
+    return;
   }
 
-  // Start intro screen
-  function startIntro() {
-    if (!shouldShowVideo()) {
-      skipBtn.style.display = "none"; 
-      return;
-    }
+  // Mark as played for this tab
+  sessionStorage.setItem(sessionKey, 'true');
 
-    introOverlay.style.display = "block";
-    introWindow.style.display = "block";
-    introWindow.classList.add("show");
-    document.body.classList.add("vi-video-active");
+  let introTimeout;
 
-    // Music starts immediately
-    introAudio.volume = 0.5;
-    introAudio.play().catch(() => {
-      console.log("Autoplay blocked, will resume on user click.");
-    });
-
-    // Clicking GIF starts intro video
-    loopAnimation.addEventListener("click", () => {
-      playIntro();
-      if (introAudio.paused) {
-        introAudio.play();
-      }
-    }, { once: true });
-
-    // If no click after 30s → auto play intro video
-    autoPlayTimeout = setTimeout(() => {
-      playIntro();
-    }, 30000);
+  function hideIntro() {
+    overlay.style.display = 'none';
+    introWindow.style.display = 'none';
+    video.pause();
+    audio.pause();
   }
 
-  // Play intro video
-  function playIntro() {
-    clearTimeout(autoPlayTimeout);
-    loopAnimation.style.display = "none";
-    introVideo.style.display = "block";
-    introVideo.play().catch(err => console.log("Video autoplay blocked:", err));
-    skipBtn.classList.add("hidden");
-  }
+  skipBtn.addEventListener('click', hideIntro);
 
-  // Skip intro
-  function skipVideoIntro() {
-    introVideo.pause();
-    removeIntro();
-  }
+  // Auto hide after 60 seconds
+  introTimeout = setTimeout(hideIntro, 60000);
 
-  // Remove intro screen
-  function removeIntro() {
-    skipBtn.classList.add("hidden");
-    introWindow.classList.add("fade-out");
+  gif.addEventListener('click', () => {
+    clearTimeout(introTimeout);
+    gif.style.display = 'none';
+    video.style.display = 'block';
+    audio.currentTime = 0;
+    audio.play().catch(() => console.log('Autoplay blocked'));
+    video.play();
+  });
 
-    setTimeout(() => {
-      introWindow.style.display = "none";
-      introOverlay.style.display = "none";
-    }, 500);
+  video.addEventListener('ended', hideIntro);
 
-    introAudio.pause();
-    introAudio.currentTime = 0;
-
-    // Mark as played → prevents intro from showing again
-    localStorage.setItem(storageKey, "true");
-    skipBtn.style.display = "none";
-
-    document.body.classList.remove("vi-video-active");
-  }
-
-  // When intro video ends → close
-  introVideo.addEventListener("ended", removeIntro);
-
-  // Init
-  document.addEventListener("DOMContentLoaded", startIntro);
+  // Ensure full coverage on resize
+  window.addEventListener('resize', () => {
+    gif.style.width = '100%';
+    gif.style.height = '100%';
+    video.style.width = '100%';
+    video.style.height = '100%';
+  });
+});
 </script>
 
 </body>
