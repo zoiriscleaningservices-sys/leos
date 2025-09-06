@@ -411,190 +411,161 @@
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Intro</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <style>
-    /* Black overlay */
-    #video-intro-overlay {
-      position: fixed;
-      background: #000;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 9998;
-      display: none;
-    }
-
-    /* Intro Window */
-    #video-intro-window {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 9999;
-      background: #000;
-    }
-    #video-intro-window.show {
-      display: block;
-    }
-    #video-intro-window.fade-out {
-      opacity: 0;
-      transition: opacity 0.5s linear;
-    }
-
-    /* Videos */
-    #video-intro-window video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      cursor: pointer;
-    }
-
-    /* Skip Button */
-    .skip-button {
-      position: fixed;
-      top: 20px; right: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      border: 1px solid #fff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      cursor: pointer;
-      z-index: 10001;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-    }
-    .skip-button:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(1.05);
-    }
-    .skip-button.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    /* Hide scrollbar when video is showing */
-    body.vi-video-active {
-      overflow: hidden;
-    }
-  </style>
-</head>
-<body>
-
-<!-- Intro Wrapper -->
-<div id="video-intro">
-  <div id="video-intro-overlay"></div>
-
-  <button type="button" id="skipBtn" class="skip-button" onclick="skipVideoIntro()">Skip Intro</button>
-
-  <div id="video-intro-window">
-    <!-- Background audio -->
-    <audio id="intro-audio" loop>
-      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
-    </audio>
-
-    <!-- Loop animation -->
-    <video id="loop-animation" autoplay muted loop playsinline>
-      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413642097898164294/09051.mp4?ex=68bcac4c&is=68bb5acc&hm=cc7906707284f6ad56e8c5a4c9726eae7dc35d7d8efae47f114f3b8ad895fcf3&" type="video/mp4">
-    </video>
-
-    <!-- Intro video -->
-    <video id="intro-video" playsinline preload="auto">
-      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413641183300685966/0905.mp4?ex=68bcab72&is=68bb59f2&hm=e18fabc51978acfb67bb6b0bd579cf4a108c68366e95fb2a8cd704583571b302&" type="video/mp4">
-    </video>
-  </div>
-</div>
-
-<script>
-  const introOverlay = document.getElementById("video-intro-overlay");
-  const introWindow = document.getElementById("video-intro-window");
-  const loopAnimation = document.getElementById("loop-animation");
-  const introVideo = document.getElementById("intro-video");
-  const introAudio = document.getElementById("intro-audio");
-  const skipBtn = document.getElementById("skipBtn");
-
-  const storageKey = "videoPlayed"; // session storage key
-
-  // Check if video should play (only once per tab session)
-  function shouldShowVideo() {
-    return !sessionStorage.getItem(storageKey);
+  body, html {
+    background: #000; /* Sets a black background during load */
   }
 
-  // Start intro screen
-  function startIntro() {
-    if (!shouldShowVideo()) {
-      skipBtn.style.display = "none"; // never show again after played
+  /* --- Start of Intro CSS --- */
+  body.intro-active {
+    overflow: hidden !important; /* Prevent scrolling during intros */
+  }
+
+  #animation-screen, #intro-video-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #animation-screen {
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  #skip-intro-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 10001;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  #skip-intro-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
+
+  #intro-video-screen {
+    display: none;
+    z-index: 999;
+  }
+
+  #intro-video-screen video, #animation-screen video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #main-content {
+    display: none; /* The script will show this when the intro is done */
+  }
+
+  .vi-desktop-only { display: block; }
+  .vi-mobile-only { display: none; }
+
+  @media (max-width: 768px) {
+    .vi-desktop-only { display: none; }
+    .vi-mobile-only { display: block; }
+  }
+  /* --- End of Intro CSS --- */
+</style>
+
+
+
+
+<script>
+  // --- Start of Intro Script ---
+  document.addEventListener('DOMContentLoaded', function() {
+    const introPlayedKey = 'introHasBeenPlayed';
+
+    const animationScreen = document.getElementById('animation-screen');
+    const skipBtn = document.getElementById('skip-intro-btn');
+    const introVideoScreen = document.getElementById('intro-video-screen');
+    const mainContent = document.getElementById('main-content');
+    const desktopVideo = document.getElementById('desktop-video');
+    const mobileVideo = document.getElementById('mobile-video');
+    const introAudio = document.getElementById('intro-audio');
+    const body = document.body;
+
+    function showMainContent() {
+      if (animationScreen) animationScreen.style.display = 'none';
+      if (introVideoScreen) introVideoScreen.style.display = 'none';
+      
+      introAudio.pause();
+      introAudio.currentTime = 0;
+
+      if (mainContent) mainContent.style.display = 'block';
+      body.classList.remove('intro-active');
+      
+      sessionStorage.setItem(introPlayedKey, 'true');
+    }
+
+    if (sessionStorage.getItem(introPlayedKey) === 'true') {
+      showMainContent();
       return;
     }
 
-    introOverlay.style.display = "block";
-    introWindow.style.display = "block";
-    introWindow.classList.add("show");
-    document.body.classList.add("vi-video-active");
+    body.classList.add('intro-active');
 
-    // Try autoplay music immediately
-    introAudio.volume = 0.5;
-    introAudio.play().catch(() => {
-      console.log("Autoplay blocked, will start on click.");
-    });
+    if(animationScreen){
+        animationScreen.addEventListener('click', (event) => {
+            if (event.target === skipBtn) return;
 
-    // Clicking loop animation starts intro video + ensures audio plays
-    loopAnimation.addEventListener("click", () => {
-      playIntro();
-      if (introAudio.paused) {
-        introAudio.play(); // fallback if autoplay was blocked
-      }
-    }, { once: true });
-  }
-
-  // Play intro video
-  function playIntro() {
-    loopAnimation.style.display = "none";
-    introVideo.style.display = "block";
-    introVideo.play().catch(err => console.log("Video autoplay blocked:", err));
-    skipBtn.classList.add("hidden"); // hide skip once video starts
-  }
-
-  // Skip intro
-  function skipVideoIntro() {
-    introVideo.pause();
-    introAudio.pause();
-    removeIntro();
-  }
-
-  // Remove intro screen
-  function removeIntro() {
-    skipBtn.classList.add("hidden");
-    introWindow.classList.add("fade-out");
-
-    setTimeout(() => {
-      introWindow.style.display = "none";
-      introOverlay.style.display = "none";
-    }, 500);
-
-    introAudio.pause();
-    introAudio.currentTime = 0;
-
-    // Mark as played → prevents intro from showing again this tab
-    sessionStorage.setItem(storageKey, "true");
-    skipBtn.style.display = "none";
-
-    document.body.classList.remove("vi-video-active");
-  }
-
-  // When intro video ends → close
-  introVideo.addEventListener("ended", removeIntro);
-
-  // Init
-  document.addEventListener("DOMContentLoaded", startIntro);
+            animationScreen.style.display = 'none';
+            if(introVideoScreen) introVideoScreen.style.display = 'block';
+            introAudio.play();
+            
+            if (window.getComputedStyle(desktopVideo).display !== 'none') {
+                desktopVideo.play();
+            } else {
+                mobileVideo.play();
+            }
+        });
+    }
+    
+    if(skipBtn) skipBtn.addEventListener('click', showMainContent);
+    if(desktopVideo) desktopVideo.addEventListener('ended', showMainContent);
+    if(mobileVideo) mobileVideo.addEventListener('ended', showMainContent);
+  });
+  // --- End of Intro Script ---
 </script>
-
-</body>
-</html>
-
