@@ -442,180 +442,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Website with Intro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Intro</title>
+  <style>
+    /* Black overlay */
+    #video-intro-overlay {
+      position: fixed;
+      background: #000;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 9998;
+      display: none;
+    }
 
-<style>
-  body, html {
-    background: #000; /* Black background during load */
-    margin: 0;
-    padding: 0;
-  }
+    /* Intro Window */
+    #video-intro-window {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 9999;
+      background: #000;
+    }
+    #video-intro-window.show {
+      display: block;
+    }
+    #video-intro-window.fade-out {
+      opacity: 0;
+      transition: opacity 0.5s linear;
+    }
 
-  /* --- Start of Intro CSS --- */
-  body.intro-active {
-    overflow: hidden !important; /* Prevent scrolling during intros */
-  }
+    /* Animation GIF + Videos */
+    #loop-animation {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+      display: block;
+    }
+    #intro-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+      display: none;
+    }
 
-  #animation-screen, #intro-video-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
+    /* Skip Button */
+    .skip-button {
+      position: fixed;
+      top: 20px; right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 10001;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .skip-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+    .skip-button.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
 
-  #animation-screen {
-    z-index: 1000;
-    cursor: pointer;
-  }
-
-  #animation-screen img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  #skip-intro-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    border: 1px solid #fff;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    z-index: 10001;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-
-  #skip-intro-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-  }
-
-  #intro-video-screen {
-    display: none;
-    z-index: 999;
-  }
-
-  #intro-video-screen video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  #main-content {
-    display: none; /* The script will show this when the intro is done */
-    background: #fff;
-    color: #000;
-    padding: 20px;
-  }
-
-  .vi-desktop-only { display: block; }
-  .vi-mobile-only { display: none; }
-
-  @media (max-width: 768px) {
-    .vi-desktop-only { display: none; }
-    .vi-mobile-only { display: block; }
-  }
-  /* --- End of Intro CSS --- */
-</style>
+    /* Hide scrollbar when video is showing */
+    body.vi-video-active {
+      overflow: hidden;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Animation screen (GIF instead of video) -->
-<div id="animation-screen">
-  <button id="skip-intro-btn">Skip Intro</button>
-  <img id="animation-gif" 
-       src="https://cdn.discordapp.com/attachments/1358917233065332889/1413756817216901242/09052.gif?ex=68bd1723&is=68bbc5a3&hm=abb44d8b0e806fc321d9ff3ed6015dff6b4695aea964c70bbd13d8b100644d49&" 
-       alt="Intro Animation" />
-</div>
+<!-- Intro Wrapper -->
+<div id="video-intro">
+  <div id="video-intro-overlay"></div>
 
-<!-- Intro video screen -->
-<div id="intro-video-screen">
-  <video class="vi-desktop-only" id="desktop-video" playsinline preload="auto">
-    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&" type="video/mp4">
-  </video>
-  <video class="vi-mobile-only" id="mobile-video" playsinline preload="auto">
-    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&" type="video/mp4">
-  </video>
-</div>
+  <button type="button" id="skipBtn" class="skip-button" onclick="skipVideoIntro()">Skip Intro</button>
 
-<!-- Background audio -->
-<audio id="intro-audio">
-  <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
-</audio>
+  <div id="video-intro-window">
+    <!-- Background audio -->
+    <audio id="intro-audio" autoplay loop>
+      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
+    </audio>
 
-<!-- Main content -->
-<div id="main-content">
-  <h1>My Full Website</h1>
-  <p>Now you can see all the content!</p>
+    <!-- Loop animation GIF -->
+    <img id="loop-animation" src="https://cdn.discordapp.com/attachments/1358917233065332889/1413756817216901242/09052.gif?ex=68bd1723&is=68bbc5a3&hm=abb44d8b0e806fc321d9ff3ed6015dff6b4695aea964c70bbd13d8b100644d49&" alt="Intro Animation">
+
+    <!-- Intro video -->
+    <video id="intro-video" playsinline preload="auto">
+      <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413642097898164294/09051.mp4?ex=68bcac4c&is=68bb5acc&hm=cc7906707284f6ad56e8c5a4c9726eae7dc35d7d8efae47f114f3b8ad895fcf3&" type="video/mp4">
+    </video>
+  </div>
 </div>
 
 <script>
-  // --- Start of Intro Script ---
-  document.addEventListener('DOMContentLoaded', function() {
-    const introPlayedKey = 'introHasBeenPlayed';
+  const introOverlay = document.getElementById("video-intro-overlay");
+  const introWindow = document.getElementById("video-intro-window");
+  const loopAnimation = document.getElementById("loop-animation");
+  const introVideo = document.getElementById("intro-video");
+  const introAudio = document.getElementById("intro-audio");
+  const skipBtn = document.getElementById("skipBtn");
 
-    const animationScreen = document.getElementById('animation-screen');
-    const skipBtn = document.getElementById('skip-intro-btn');
-    const introVideoScreen = document.getElementById('intro-video-screen');
-    const mainContent = document.getElementById('main-content');
-    const desktopVideo = document.getElementById('desktop-video');
-    const mobileVideo = document.getElementById('mobile-video');
-    const introAudio = document.getElementById('intro-audio');
-    const body = document.body;
+  const storageKey = "videoPlayed"; // local storage key
+  let autoPlayTimeout;
 
-    function showMainContent() {
-      if (animationScreen) animationScreen.style.display = 'none';
-      if (introVideoScreen) introVideoScreen.style.display = 'none';
-      
-      introAudio.pause();
-      introAudio.currentTime = 0;
+  // Check if video should play (only once per browser until storage cleared)
+  function shouldShowVideo() {
+    return !localStorage.getItem(storageKey);
+  }
 
-      if (mainContent) mainContent.style.display = 'block';
-      body.classList.remove('intro-active');
-      
-      sessionStorage.setItem(introPlayedKey, 'true');
-    }
-
-    if (sessionStorage.getItem(introPlayedKey) === 'true') {
-      showMainContent();
+  // Start intro screen
+  function startIntro() {
+    if (!shouldShowVideo()) {
+      skipBtn.style.display = "none"; 
       return;
     }
 
-    body.classList.add('intro-active');
+    introOverlay.style.display = "block";
+    introWindow.style.display = "block";
+    introWindow.classList.add("show");
+    document.body.classList.add("vi-video-active");
 
-    if(animationScreen){
-        animationScreen.addEventListener('click', (event) => {
-            if (event.target === skipBtn) return;
+    // Music starts immediately
+    introAudio.volume = 0.5;
+    introAudio.play().catch(() => {
+      console.log("Autoplay blocked, will resume on user click.");
+    });
 
-            animationScreen.style.display = 'none';
-            if(introVideoScreen) introVideoScreen.style.display = 'block';
-            introAudio.play();
-            
-            if (window.getComputedStyle(desktopVideo).display !== 'none') {
-                desktopVideo.play();
-            } else {
-                mobileVideo.play();
-            }
-        });
-    }
-    
-    if(skipBtn) skipBtn.addEventListener('click', showMainContent);
-    if(desktopVideo) desktopVideo.addEventListener('ended', showMainContent);
-    if(mobileVideo) mobileVideo.addEventListener('ended', showMainContent);
-  });
-  // --- End of Intro Script ---
+    // Clicking GIF starts intro video
+    loopAnimation.addEventListener("click", () => {
+      playIntro();
+      if (introAudio.paused) {
+        introAudio.play();
+      }
+    }, { once: true });
+
+    // If no click after 30s → auto play intro video
+    autoPlayTimeout = setTimeout(() => {
+      playIntro();
+    }, 30000);
+  }
+
+  // Play intro video
+  function playIntro() {
+    clearTimeout(autoPlayTimeout);
+    loopAnimation.style.display = "none";
+    introVideo.style.display = "block";
+    introVideo.play().catch(err => console.log("Video autoplay blocked:", err));
+    skipBtn.classList.add("hidden");
+  }
+
+  // Skip intro
+  function skipVideoIntro() {
+    introVideo.pause();
+    removeIntro();
+  }
+
+  // Remove intro screen
+  function removeIntro() {
+    skipBtn.classList.add("hidden");
+    introWindow.classList.add("fade-out");
+
+    setTimeout(() => {
+      introWindow.style.display = "none";
+      introOverlay.style.display = "none";
+    }, 500);
+
+    introAudio.pause();
+    introAudio.currentTime = 0;
+
+    // Mark as played → prevents intro from showing again
+    localStorage.setItem(storageKey, "true");
+    skipBtn.style.display = "none";
+
+    document.body.classList.remove("vi-video-active");
+  }
+
+  // When intro video ends → close
+  introVideo.addEventListener("ended", removeIntro);
+
+  // Init
+  document.addEventListener("DOMContentLoaded", startIntro);
 </script>
 
 </body>
 </html>
-       
