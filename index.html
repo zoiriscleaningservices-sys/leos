@@ -450,6 +450,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      cursor: pointer;
     }
 
     /* Skip Button */
@@ -482,15 +483,6 @@
     body.vi-video-active {
       overflow: hidden;
     }
-
-    @media (max-width: 768px) {
-      .skip-button {
-        top: 12px;
-        right: 12px;
-        padding: 6px 12px;
-        font-size: 13px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -507,7 +499,7 @@
       <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
     </audio>
 
-    <!-- Loop animation (default screen) -->
+    <!-- Loop animation -->
     <video id="loop-animation" autoplay muted loop playsinline>
       <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413642097898164294/09051.mp4?ex=68bcac4c&is=68bb5acc&hm=cc7906707284f6ad56e8c5a4c9726eae7dc35d7d8efae47f114f3b8ad895fcf3&" type="video/mp4">
     </video>
@@ -537,8 +529,7 @@
   // Start intro screen
   function startIntro() {
     if (!shouldShowVideo()) {
-      // If already played → don't show intro, also hide skip button forever
-      skipBtn.style.display = "none";
+      skipBtn.style.display = "none"; // never show again after played
       return;
     }
 
@@ -547,14 +538,19 @@
     introWindow.classList.add("show");
     document.body.classList.add("vi-video-active");
 
-    // Start background music immediately
+    // Try autoplay music immediately
     introAudio.volume = 0.5;
     introAudio.play().catch(() => {
-      document.addEventListener('click', () => introAudio.play(), { once: true });
+      console.log("Autoplay blocked, will start on click.");
     });
 
-    // Clicking animation starts intro video
-    loopAnimation.addEventListener("click", playIntro, { once: true });
+    // Clicking loop animation starts intro video + ensures audio plays
+    loopAnimation.addEventListener("click", () => {
+      playIntro();
+      if (introAudio.paused) {
+        introAudio.play(); // fallback if autoplay was blocked
+      }
+    }, { once: true });
   }
 
   // Play intro video
@@ -585,7 +581,7 @@
     introAudio.pause();
     introAudio.currentTime = 0;
 
-    // Mark as played → prevents skip from showing again
+    // Mark as played → prevents intro from showing again this tab
     sessionStorage.setItem(storageKey, "true");
     skipBtn.style.display = "none";
 
