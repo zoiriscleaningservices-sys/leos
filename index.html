@@ -439,36 +439,18 @@
 
 
 
-  
-  <div id="animation-screen">
-  <button id="skip-intro-btn">Skip Intro</button>
-  <video id="animation-video" autoplay muted loop playsinline>
-    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413606825579905114/09033.mp4?ex=68bc8b72&is=68bb39f2&hm=eca364a6043884eef8a03f046c715c71960339033de047b06b49374a0a6535cd&" type="video/mp4">
-  </video>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website with Intro</title>
 
-<div id="intro-video-screen">
-  <video class="vi-desktop-only" id="desktop-video" playsinline preload="auto">
-    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&" type="video/mp4">
-  </video>
-  <video class="vi-mobile-only" id="mobile-video" playsinline preload="auto">
-    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&" type="video/mp4">
-  </video>
-</div>
-
-<audio id="intro-audio">
-  <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
-</audio>
-
-<div id="main-content">
-  </div>
-
-
-
-
-  <style>
+<style>
   body, html {
-    background: #000; /* Sets a black background during load */
+    background: #000; /* Black background during load */
+    margin: 0;
+    padding: 0;
   }
 
   /* --- Start of Intro CSS --- */
@@ -482,12 +464,18 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
   #animation-screen {
     z-index: 1000;
     cursor: pointer;
+  }
+
+  #animation-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   #skip-intro-btn {
@@ -517,7 +505,7 @@
     z-index: 999;
   }
 
-  #intro-video-screen video, #animation-screen video {
+  #intro-video-screen video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -525,6 +513,9 @@
 
   #main-content {
     display: none; /* The script will show this when the intro is done */
+    background: #fff;
+    color: #000;
+    padding: 20px;
   }
 
   .vi-desktop-only { display: block; }
@@ -536,8 +527,37 @@
   }
   /* --- End of Intro CSS --- */
 </style>
+</head>
+<body>
 
+<!-- Animation screen (GIF instead of video) -->
+<div id="animation-screen">
+  <button id="skip-intro-btn">Skip Intro</button>
+  <img id="animation-gif" 
+       src="https://cdn.discordapp.com/attachments/1358917233065332889/1413756817216901242/09052.gif?ex=68bd1723&is=68bbc5a3&hm=abb44d8b0e806fc321d9ff3ed6015dff6b4695aea964c70bbd13d8b100644d49&" 
+       alt="Intro Animation" />
+</div>
 
+<!-- Intro video screen -->
+<div id="intro-video-screen">
+  <video class="vi-desktop-only" id="desktop-video" playsinline preload="auto">
+    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&" type="video/mp4">
+  </video>
+  <video class="vi-mobile-only" id="mobile-video" playsinline preload="auto">
+    <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413594829149179964/openart-video_7500311e_1757096819853.mp4?ex=68bc8046&is=68bb2ec6&hm=6c285ce5fe51c53332df66c969e7d16ff9041ce8127759e1f64a30ee12473d49&" type="video/mp4">
+  </video>
+</div>
+
+<!-- Background audio -->
+<audio id="intro-audio">
+  <source src="https://cdn.discordapp.com/attachments/1358917233065332889/1413614259098615879/Melly_Mike_-_Young_Black_Rich_Of_getmp3.pro.mp3?ex=68bc925f&is=68bb40df&hm=1670c174928b780e8eb1e99f2fd22a95bcf6683d1ffc538b61a79b658d605490&" type="audio/mp3">
+</audio>
+
+<!-- Main content -->
+<div id="main-content">
+  <h1>My Full Website</h1>
+  <p>Now you can see all the content!</p>
+</div>
 
 <script>
   // --- Start of Intro Script ---
@@ -595,3 +615,7 @@
   });
   // --- End of Intro Script ---
 </script>
+
+</body>
+</html>
+       
